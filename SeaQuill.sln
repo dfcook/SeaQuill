@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaQuell", "SeaQuell.csproj", "{24D30B3E-BF74-412F-9680-329CB98A0B52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaQuill.Tests", "SeaQuill.Tests\SeaQuill.Tests.csproj", "{E8D775CE-D543-4469-8AEA-91CEE1DF183F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaQuellTests", "..\SeaQuellTests\SeaQuellTests.csproj", "{E8D775CE-D543-4469-8AEA-91CEE1DF183F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaQuill.DataAnnotations", "SeaQuill.DataAnnotations\SeaQuill.DataAnnotations.csproj", "{F6E80567-102E-4572-AD7D-0707ED165E3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaQuell.DataAnnotations", "..\SeaQuell.DataAnnotations\SeaQuell.DataAnnotations.csproj", "{F6E80567-102E-4572-AD7D-0707ED165E3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaQuill", "SeaQuill\SeaQuill.csproj", "{24D30B3E-BF74-412F-9680-329CB98A0B52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{24D30B3E-BF74-412F-9680-329CB98A0B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24D30B3E-BF74-412F-9680-329CB98A0B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24D30B3E-BF74-412F-9680-329CB98A0B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24D30B3E-BF74-412F-9680-329CB98A0B52}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8D775CE-D543-4469-8AEA-91CEE1DF183F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E8D775CE-D543-4469-8AEA-91CEE1DF183F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8D775CE-D543-4469-8AEA-91CEE1DF183F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{F6E80567-102E-4572-AD7D-0707ED165E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6E80567-102E-4572-AD7D-0707ED165E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6E80567-102E-4572-AD7D-0707ED165E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D30B3E-BF74-412F-9680-329CB98A0B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D30B3E-BF74-412F-9680-329CB98A0B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D30B3E-BF74-412F-9680-329CB98A0B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D30B3E-BF74-412F-9680-329CB98A0B52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

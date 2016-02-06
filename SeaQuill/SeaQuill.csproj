@@ -41,8 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SeaQuell.cs" />
     <Compile Include="ObjectSelectStatement.cs" />
+    <Compile Include="SeaQuill.cs" />
     <Compile Include="SelectStatement.cs" />
     <Compile Include="SqlField.cs" />
     <Compile Include="SqlGroup.cs" />
@@ -51,7 +51,7 @@
     <Compile Include="SqlWhere.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SeaQuell.DataAnnotations\SeaQuell.DataAnnotations.csproj">
+    <ProjectReference Include="..\SeaQuill.DataAnnotations\SeaQuill.DataAnnotations.csproj">
       <Project>{f6e80567-102e-4572-ad7d-0707ed165e3d}</Project>
       <Name>SeaQuell.DataAnnotations</Name>
     </ProjectReference>
