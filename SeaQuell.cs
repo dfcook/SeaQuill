@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DanielCook.Sql
+﻿namespace DanielCook.Sql
 {
     public static class SeaQuell
     {
-        public static SelectStatement Select()
-        {
-            return new SelectStatement();
-        }
+        public static SelectStatement Select() =>
+            new SelectStatement();
+
+        public static ObjectSelectStatement<T> SelectFor<T>() =>
+            new ObjectSelectStatement<T>();
     }
 }

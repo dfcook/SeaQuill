@@ -17,6 +17,10 @@ namespace DanielCook.Sql
 
                 sb.Remove(sb.Length - 2, 2);
             }
+            else
+            {
+                sb.Append("*");
+            }
 
             return sb.ToString();
         }

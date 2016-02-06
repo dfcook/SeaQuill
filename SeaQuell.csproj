@@ -42,12 +42,19 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeaQuell.cs" />
+    <Compile Include="ObjectSelectStatement.cs" />
     <Compile Include="SelectStatement.cs" />
     <Compile Include="SqlField.cs" />
     <Compile Include="SqlGroup.cs" />
     <Compile Include="SqlOrder.cs" />
     <Compile Include="SqlTable.cs" />
     <Compile Include="SqlWhere.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SeaQuell.DataAnnotations\SeaQuell.DataAnnotations.csproj">
+      <Project>{f6e80567-102e-4572-ad7d-0707ed165e3d}</Project>
+      <Name>SeaQuell.DataAnnotations</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

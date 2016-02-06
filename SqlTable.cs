@@ -24,7 +24,21 @@ namespace DanielCook.Sql
         }
     }
 
-    internal struct SqlTable
+    internal class SqlSubQueryTable : SqlTable
+    {
+        public SelectStatement SubQuery { get; }        
+
+        public SqlSubQueryTable(SelectStatement subQuery, string alias) : 
+            base(string.Empty, alias)
+        {
+            SubQuery = subQuery;
+        }
+
+        public override string ToString() =>
+            $"({SubQuery}) {Alias}";        
+    }
+
+    internal class SqlTable
     {
         public string TableName { get; }
         public string Alias { get; }
