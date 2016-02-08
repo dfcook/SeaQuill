@@ -1,11 +1,79 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace SeaQuill.ObjectMapping
-{    
+{
     public class SqlWhereExpression<T> : SqlWhere
     {
+        private class WhereExpressionVisitor : ExpressionVisitor
+        {
+            protected override Expression VisitMember(MemberExpression node)
+            {
+                switch (node.Expression.NodeType)
+                {
+                    case ExpressionType.Constant:
+                    case ExpressionType.MemberAccess:
+                        {
+                            return GetMemberConstant(node);
+                        }
+                    default:
+                        {
+                            return base.VisitMember(node);
+                        }
+                }
+            }
+
+            private static ConstantExpression GetMemberConstant(MemberExpression node)
+            {
+                object value;
+
+                if (node.Member.MemberType == MemberTypes.Field)
+                {
+                    value = GetFieldValue(node);
+                }
+                else if (node.Member.MemberType == MemberTypes.Property)
+                {
+                    value = GetPropertyValue(node);
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+
+                return Expression.Constant(value, node.Type);
+            }
+            private static object GetFieldValue(MemberExpression node)
+            {
+                var fieldInfo = (FieldInfo)node.Member;
+
+                var instance = (node.Expression == null) ? null : TryEvaluate(node.Expression).Value;
+
+                return fieldInfo.GetValue(instance);
+            }
+
+            private static object GetPropertyValue(MemberExpression node)
+            {
+                var propertyInfo = (PropertyInfo)node.Member;
+
+                var instance = (node.Expression == null) ? null : TryEvaluate(node.Expression).Value;
+
+                return propertyInfo.GetValue(instance, null);
+            }
+
+            private static ConstantExpression TryEvaluate(Expression expression)
+            {
+
+                if (expression.NodeType == ExpressionType.Constant)
+                {
+                    return (ConstantExpression)expression;
+                }
+                throw new NotSupportedException();
+
+            }
+        }
+
         private ObjectTableMapping<T> _mapping;
 
         private static string GenerateWhereClause(Expression<Predicate<T>> predicate,
@@ -18,23 +86,60 @@ namespace SeaQuill.ObjectMapping
             var lhs = body.Left as MemberExpression;
             if (lhs == null)
                 throw new ArgumentException("The LHS of the predicate must be a member expression");
-            
+
             var columnName = mapping.
                 PropertyMappings.
-                Single(x => x.PropertyName.Equals(lhs.Member.Name, 
+                Single(x => x.PropertyName.Equals(lhs.Member.Name,
                     StringComparison.OrdinalIgnoreCase)).
                 ColumnName;
-
-            var rhs = body.Right as ConstantExpression;
-            if (rhs == null)
-                throw new ArgumentException("The RHS of the predicate must be a constant value");
-
-            var quote = rhs.Type.IsNumericType() ? string.Empty : "'";
             
-            return $"{columnName} = {quote}{rhs.Value}{quote}";
+            var rhs = body.Right;
+            var value = new WhereExpressionVisitor().Visit(rhs);
+
+            var quote = (rhs.Type == typeof(bool) || rhs.Type.IsNumericType()) ?
+                string.Empty : "'";            
+
+            return $"{columnName} {GetExpressionType(body.NodeType)} {quote}{value}{quote}";
         }
 
-        public SqlWhereExpression(Expression<Predicate<T>> predicate, ObjectTableMapping<T> mapping) : 
+        private static object Evaluate(Expression expr)
+        {
+            if (expr.NodeType == ExpressionType.Constant)
+            {
+                return expr;
+            }
+            LambdaExpression lambda = Expression.Lambda(expr);
+            Delegate fn = lambda.Compile();
+            return Expression.Constant(fn.DynamicInvoke(null), expr.Type);
+        }
+
+        private static string GetExpressionType(ExpressionType type)
+        {
+            switch (type)
+            {
+                case ExpressionType.Equal:
+                    return "=";
+
+                case ExpressionType.NotEqual:
+                    return "!=";
+
+                case ExpressionType.GreaterThan:
+                    return ">";
+
+                case ExpressionType.GreaterThanOrEqual:
+                    return ">=";
+
+                case ExpressionType.LessThan:
+                    return "<";
+
+                case ExpressionType.LessThanOrEqual:
+                    return "<=";
+            }
+
+            throw new ArgumentException($"Unrecognized expression type: {type}");
+        }
+
+        public SqlWhereExpression(Expression<Predicate<T>> predicate, ObjectTableMapping<T> mapping) :
             base(GenerateWhereClause(predicate, mapping))
         {
             _mapping = mapping;

@@ -52,7 +52,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DataRetrievalTests.cs" />
     <Compile Include="InsertTests.cs" />
+    <Compile Include="ObjectDeleteTests.cs" />
     <Compile Include="UpdateTests.cs" />
     <Compile Include="ObjectSelectTests.cs" />
     <Compile Include="JoinSelectTests.cs" />
@@ -61,6 +63,10 @@
     <Compile Include="DeleteTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SeaQuill.DataAccess\SeaQuill.DataAccess.csproj">
+      <Project>{c6d7ec69-b498-438d-8eec-aee6247c2c92}</Project>
+      <Name>SeaQuill.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SeaQuill.DataAnnotations\SeaQuill.DataAnnotations.csproj">
       <Project>{f6e80567-102e-4572-ad7d-0707ed165e3d}</Project>
       <Name>SeaQuill.DataAnnotations</Name>
