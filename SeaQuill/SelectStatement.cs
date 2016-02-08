@@ -1,18 +1,23 @@
 ﻿
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace DanielCook.Sql
+namespace SeaQuill
 {
     public class SelectStatement
     {
-        private SqlTableList _tables = new SqlTableList();
-        private SqlFieldList _fields = new SqlFieldList();
-        private SqlWhereList _clauses = new SqlWhereList();
-        private SqlOrderList _orders = new SqlOrderList();
-        private SqlGroupList _groups = new SqlGroupList();
+        protected readonly SqlTableList _tables = new SqlTableList();
+        protected readonly SqlFieldList _fields = new SqlFieldList();
+        protected readonly SqlWhereList _clauses = new SqlWhereList();
+        protected readonly SqlOrderList _orders = new SqlOrderList();
+        protected readonly SqlJoinList _joins = new SqlJoinList();
+        protected readonly SqlGroupList _groups = new SqlGroupList();
 
-        private bool _distinct = false;
-        private int? _top = null;
+        protected SelectStatement _union;
+        protected bool _unionAll = false;
+        protected bool _distinct = false;
+        protected int? _top = null;
         
         public SelectStatement Top(int top)
         {
@@ -20,6 +25,13 @@ namespace DanielCook.Sql
             return this;
         }
 
+        public SelectStatement Distinct()
+        {
+            _distinct = true;
+            return this;
+        }
+
+        #region "Tables"
         public SelectStatement From(SelectStatement subQuery, string alias)
         {
             _tables.Add(new SqlSubQueryTable(subQuery, alias));
@@ -37,16 +49,105 @@ namespace DanielCook.Sql
             _tables.Add(new SqlTable(tableName));
             return this;
         }
+        #endregion
 
+        #region "Fields"
         public SelectStatement Field(string fieldName)
         {
             _fields.Add(new SqlField(fieldName));
             return this;
         }
 
-        public SelectStatement OrderBy(string fieldName)
+        public SelectStatement Fields(IEnumerable<string> fieldNames)
         {
-            _orders.Add(new SqlOrder(fieldName));
+            _fields.AddRange(fieldNames.Select(x => new SqlField(x)));
+            return this;
+        }
+        #endregion
+
+        #region "Inner Joins"
+        public SelectStatement Join(string tableName)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Inner, tableName));
+            return this;
+        }
+
+        public SelectStatement Join(string tableName, string alias)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Inner, tableName, alias));
+            return this;
+        }
+
+        public SelectStatement Join(string tableName, string alias, string criteria)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Inner, tableName, alias, criteria));
+            return this;
+        }
+        #endregion
+
+        #region "Left Joins"
+        public SelectStatement LeftJoin(string tableName)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Left, tableName));
+            return this;
+        }
+
+        public SelectStatement LeftJoin(string tableName, string alias)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Left, tableName, alias));
+            return this;
+        }
+
+        public SelectStatement LeftJoin(string tableName, string alias, string criteria)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Left, tableName, alias, criteria));
+            return this;
+        }
+        #endregion
+
+        #region "Right Joins"
+        public SelectStatement RightJoin(string tableName)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Right, tableName));
+            return this;
+        }
+
+        public SelectStatement RightJoin(string tableName, string alias)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Right, tableName, alias));
+            return this;
+        }
+
+        public SelectStatement RightJoin(string tableName, string alias, string criteria)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Right, tableName, alias, criteria));
+            return this;
+        }
+        #endregion
+
+        #region "Cross Joins"
+        public SelectStatement CrossJoin(string tableName)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Cross, tableName));
+            return this;
+        }
+
+        public SelectStatement CrossJoin(string tableName, string alias)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Cross, tableName, alias));
+            return this;
+        }
+
+        public SelectStatement CrossJoin(string tableName, string alias, string criteria)
+        {
+            _joins.Add(new SqlJoin(SqlJoinType.Cross, tableName, alias, criteria));
+            return this;
+        }
+        #endregion
+
+        public SelectStatement Where(string clause)
+        {
+            _clauses.Add(new SqlWhere(clause));
             return this;
         }
 
@@ -56,21 +157,30 @@ namespace DanielCook.Sql
             return this;
         }
 
+        #region "Order By"
+        public SelectStatement OrderBy(string fieldName)
+        {
+            _orders.Add(new SqlOrder(fieldName));
+            return this;
+        }
+
         public SelectStatement OrderBy(string fieldName, bool ascending)
         {
             _orders.Add(new SqlOrder(fieldName, ascending));
             return this;
         }
+        #endregion
 
-        public SelectStatement Where(string clause)
+        public SelectStatement Union(SelectStatement select)
         {
-            _clauses.Add(new SqlWhere(clause));
+            _union = select;
             return this;
         }
 
-        public SelectStatement Distinct()
+        public SelectStatement UnionAll(SelectStatement select)
         {
-            _distinct = true;
+            _union = select;
+            _unionAll = true;
             return this;
         }
 
@@ -84,13 +194,20 @@ namespace DanielCook.Sql
             if (_distinct)
                 sb.Append("distinct ");
 
-            return sb.
+            sb.
                 Append(_fields.ToString()).
                 Append(_tables.ToString()).
+                Append(_joins.ToString()).
                 Append(_clauses.ToString()).
                 Append(_groups.ToString()).
-                Append(_orders.ToString()).
-                ToString();            
+                Append(_orders.ToString());
+
+            if (_union != null)
+                sb.
+                    Append(_unionAll ? " union all " : " union ").
+                    Append(_union);
+
+            return sb.ToString();
         }
     }
 }

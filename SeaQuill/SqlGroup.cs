@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DanielCook.Sql
+namespace SeaQuill
 {
-    internal class SqlGroupList : List<SqlGroup>
+    public class SqlGroupList : List<SqlGroup>
     {
         public override string ToString()
         {
@@ -25,7 +25,7 @@ namespace DanielCook.Sql
         }
     }
 
-    internal struct SqlGroup
+    public class SqlGroup
     {
         public string GroupBy { get; }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DanielCook.Sql.DataAnnotations
+namespace SeaQuill.DataAnnotations
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class IdAttribute : Attribute

@@ -1,24 +1,52 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DanielCook.Sql;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SeaQuellTests
+namespace SeaQuill.Tests
 {
     [TestClass]
-    public class TestSqlBuilder
+    public class SelectTests
     {
+        [TestMethod]
+        public void TestWithUnionSelect()
+        {
+            const string sql = "select foo from Users union select foo from Admins";
+
+            var select = Sql.
+                Select().
+                Field("foo").
+                From("Users").
+                Union(Sql.Select().Field("foo").From("Admins")).
+                ToString();
+
+            Assert.AreEqual(sql, select);
+        }
+
+        [TestMethod]
+        public void TestWithUnionAllSelect()
+        {
+            const string sql = "select foo from Users union all select foo from Admins";
+
+            var select = Sql.
+                Select().
+                Field("foo").
+                From("Users").
+                UnionAll(Sql.Select().Field("foo").From("Admins")).
+                ToString();
+
+            Assert.AreEqual(sql, select);
+        }
+
         [TestMethod]
         public void TestWithSubQuerySelect()
         {
             const string sql = "select foo from (select foo from Users) u";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().
                 Field("foo").                
-                From(SeaQuell.Select().Field("foo").From("Users"), "u").                
+                From(Sql.Select().Field("foo").From("Users"), "u").                
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -26,7 +54,7 @@ namespace SeaQuellTests
         {
             const string sql = "select foo, min(bar) from Users u group by foo";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().
                 Field("foo").
                 Field("min(bar)").
@@ -34,7 +62,7 @@ namespace SeaQuellTests
                 GroupBy("foo").
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -42,14 +70,14 @@ namespace SeaQuellTests
         {
             const string sql = "select foo, bar from Users";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().
                 Field("foo").
                 Field("bar").
                 From("Users").
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -57,7 +85,7 @@ namespace SeaQuellTests
         {
             const string sql = "select foo, bar from Users where Active = 1";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().
                 Field("foo").
                 Field("bar").
@@ -65,7 +93,7 @@ namespace SeaQuellTests
                 Where("Active = 1").
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -73,7 +101,7 @@ namespace SeaQuellTests
         {
             const string sql = "select distinct foo, bar from Users";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().
                 Field("foo").
                 Field("bar").
@@ -81,7 +109,7 @@ namespace SeaQuellTests
                 Distinct().
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -89,7 +117,7 @@ namespace SeaQuellTests
         {
             const string sql = "select foo, bar from Users order by foo asc";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().
                 Field("foo").
                 Field("bar").
@@ -97,7 +125,7 @@ namespace SeaQuellTests
                 OrderBy("foo").
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -105,7 +133,7 @@ namespace SeaQuellTests
         {
             const string sql = "select foo, bar from Users order by foo asc, bar desc";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().
                 Field("foo").
                 Field("bar").
@@ -114,7 +142,7 @@ namespace SeaQuellTests
                 OrderBy("bar", false).
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -122,7 +150,7 @@ namespace SeaQuellTests
         {
             const string sql = "select foo, min(bar) from Users group by foo";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().
                 Field("foo").
                 Field("min(bar)").
@@ -130,7 +158,7 @@ namespace SeaQuellTests
                 GroupBy("foo").
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -138,12 +166,12 @@ namespace SeaQuellTests
         {
             const string sql = "select * from Users";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().                
                 From("Users").
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -151,7 +179,7 @@ namespace SeaQuellTests
         {
             const string sql = "select top 10 foo from Users order by foo asc";
 
-            var select = SeaQuell.
+            var select = Sql.
                 Select().
                 Top(10).
                 Field("foo").
@@ -159,7 +187,7 @@ namespace SeaQuellTests
                 OrderBy("foo").
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
     }
 }

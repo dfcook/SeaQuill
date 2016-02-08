@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Text;
 
-namespace DanielCook.Sql
+namespace SeaQuill
 {
-    internal class SqlTableList : List<SqlTable>
+    public class SqlTableList : List<SqlTable>
     {
         public override string ToString()
         {
@@ -24,7 +24,7 @@ namespace DanielCook.Sql
         }
     }
 
-    internal class SqlSubQueryTable : SqlTable
+    public class SqlSubQueryTable : SqlTable
     {
         public SelectStatement SubQuery { get; }        
 
@@ -38,7 +38,7 @@ namespace DanielCook.Sql
             $"({SubQuery}) {Alias}";        
     }
 
-    internal class SqlTable
+    public class SqlTable
     {
         public string TableName { get; }
         public string Alias { get; }

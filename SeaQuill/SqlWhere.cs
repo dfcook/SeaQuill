@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Text;
 
-namespace DanielCook.Sql
+namespace SeaQuill
 {
-    internal class SqlWhereList : List<SqlWhere>
+    public class SqlWhereList : List<SqlWhere>
     {
         public override string ToString()
         {
@@ -24,7 +24,7 @@ namespace DanielCook.Sql
         }
     }
 
-    internal struct SqlWhere
+    public class SqlWhere
     {
         public string WhereClause { get; }
 

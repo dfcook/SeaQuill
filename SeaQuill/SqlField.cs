@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Text;
 
-namespace DanielCook.Sql
+namespace SeaQuill
 {
-    internal class SqlFieldList : List<SqlField>
+    public class SqlFieldList : List<SqlField>
     {
         public override string ToString()
         {
@@ -26,7 +26,7 @@ namespace DanielCook.Sql
         }
     }
 
-    internal struct SqlField
+    public class SqlField
     {
         public string FieldName { get; }
 

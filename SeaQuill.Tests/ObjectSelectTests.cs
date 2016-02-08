@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DanielCook.Sql;
-using DanielCook.Sql.DataAnnotations;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SeaQuill.DataAnnotations;
 
-namespace SeaQuellTests
+namespace SeaQuill.Tests
 {
     [Table("Users")]
     public class User
@@ -23,11 +21,11 @@ namespace SeaQuellTests
         {
             const string sql = "select Id, user_name from Users";
 
-            var select = SeaQuell.
+            var select = DataAnnotations.Sql.
                 SelectFor<User>().                                                               
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
 
         [TestMethod]
@@ -35,12 +33,12 @@ namespace SeaQuellTests
         {
             const string sql = "select Id, user_name from Users where Id != null";
 
-            var select = SeaQuell.
+            var select = DataAnnotations.Sql.
                 SelectFor<User>().
-                Where("Id != null").
+                Where("Id != null").                
                 ToString();
 
-            Assert.AreEqual(select, sql);
+            Assert.AreEqual(sql, select);
         }
     }
 }

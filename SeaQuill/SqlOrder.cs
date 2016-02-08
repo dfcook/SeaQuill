@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Text;
 
-namespace DanielCook.Sql
+namespace SeaQuill
 {
-    internal class SqlOrderList : List<SqlOrder>
+    public class SqlOrderList : List<SqlOrder>
     {
         public override string ToString()
         {
@@ -24,7 +24,7 @@ namespace DanielCook.Sql
         }
     }
 
-    internal struct SqlOrder
+    public class SqlOrder
     {
         public bool Ascending { get; }
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace DanielCook.Sql.DataAnnotations
+namespace SeaQuill.DataAnnotations
 {
     public class ObjectTableMapping<T>
     {
