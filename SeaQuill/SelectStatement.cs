@@ -1,11 +1,12 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace SeaQuill
 {
-    public class SelectStatement
+    public class SelectStatement : IJoinable<SelectStatement>
     {
         protected readonly SqlTableList _tables = new SqlTableList();
         protected readonly SqlFieldList _fields = new SqlFieldList();
@@ -18,7 +19,11 @@ namespace SeaQuill
         protected bool _unionAll = false;
         protected bool _distinct = false;
         protected int? _top = null;
-        
+
+        public SelectStatement InnerStatement => this;
+
+        public SqlJoinList Joins => _joins;
+
         public SelectStatement Top(int top)
         {
             _top = top;
@@ -63,87 +68,7 @@ namespace SeaQuill
             _fields.AddRange(fieldNames.Select(x => new SqlField(x)));
             return this;
         }
-        #endregion
-
-        #region "Inner Joins"
-        public SelectStatement Join(string tableName)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Inner, tableName));
-            return this;
-        }
-
-        public SelectStatement Join(string tableName, string alias)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Inner, tableName, alias));
-            return this;
-        }
-
-        public SelectStatement Join(string tableName, string alias, string criteria)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Inner, tableName, alias, criteria));
-            return this;
-        }
-        #endregion
-
-        #region "Left Joins"
-        public SelectStatement LeftJoin(string tableName)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Left, tableName));
-            return this;
-        }
-
-        public SelectStatement LeftJoin(string tableName, string alias)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Left, tableName, alias));
-            return this;
-        }
-
-        public SelectStatement LeftJoin(string tableName, string alias, string criteria)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Left, tableName, alias, criteria));
-            return this;
-        }
-        #endregion
-
-        #region "Right Joins"
-        public SelectStatement RightJoin(string tableName)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Right, tableName));
-            return this;
-        }
-
-        public SelectStatement RightJoin(string tableName, string alias)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Right, tableName, alias));
-            return this;
-        }
-
-        public SelectStatement RightJoin(string tableName, string alias, string criteria)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Right, tableName, alias, criteria));
-            return this;
-        }
-        #endregion
-
-        #region "Cross Joins"
-        public SelectStatement CrossJoin(string tableName)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Cross, tableName));
-            return this;
-        }
-
-        public SelectStatement CrossJoin(string tableName, string alias)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Cross, tableName, alias));
-            return this;
-        }
-
-        public SelectStatement CrossJoin(string tableName, string alias, string criteria)
-        {
-            _joins.Add(new SqlJoin(SqlJoinType.Cross, tableName, alias, criteria));
-            return this;
-        }
-        #endregion
+        #endregion                
 
         public SelectStatement Where(string clause)
         {

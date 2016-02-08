@@ -1,15 +1,33 @@
-﻿using System;
+﻿using SeaQuill.DataAnnotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace SeaQuill.DataAnnotations
+namespace SeaQuill.ObjectMapping
 {
     public class ObjectTableMapping<T>
     {
-        public IList<string> Fields { get; } =
-            new List<string>();
+        private static IList<IPropertyMapping> GetMappings<U>() =>
+            typeof(U).
+                GetProperties(BindingFlags.Instance | BindingFlags.Public).
+                Where(x => x.SetMethod != null).
+                Select(GetPropertyMapping<U>).
+                ToList();
+
+        private static IPropertyMapping GetPropertyMapping<U>(PropertyInfo property)
+        {
+            var attrs = property.
+                GetCustomAttributes().
+                Where(attr => attr is ColumnAttribute);
+
+            return attrs.Any() ?
+                new PropertyMapping<U>(((ColumnAttribute)attrs.First()).ColumnName, property) :
+                new PropertyMapping<U>(property);
+        }
+
+        public IList<IPropertyMapping> PropertyMappings { get; } = GetMappings<T>();        
 
         public string IdField { get; private set; }
         public string TableName { get; private set; }
@@ -23,10 +41,10 @@ namespace SeaQuill.DataAnnotations
         {
             var sb = new StringBuilder();
 
-            if (this.Fields.Any())
+            if (PropertyMappings.Any())
             {
-                foreach (var field in this.Fields)
-                    sb.Append(field).Append(", ");
+                foreach (var field in PropertyMappings)
+                    sb.Append(field.ColumnName).Append(", ");
 
                 sb.Remove(sb.Length - 2, 2);
             }
@@ -68,16 +86,14 @@ namespace SeaQuill.DataAnnotations
         private void PopulateMappings()
         {
             var type = typeof(T);
-
+            
             TableName = GetTableName(type);
 
             var properties = type.GetProperties();
 
             foreach (var property in properties)
             {
-                var columnName = GetColumnMapping(property);
-
-                Fields.Add(columnName);
+                var columnName = GetColumnMapping(property);                
 
                 if (string.IsNullOrEmpty(IdField) &&
                     IsIdField(property))

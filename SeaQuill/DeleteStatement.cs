@@ -1,16 +1,20 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace SeaQuill
 {
-    public class DeleteStatement
+    public class DeleteStatement : IJoinable<DeleteStatement>
     {
-        private SqlTableList _tables = new SqlTableList();
-        private SqlWhereList _clauses = new SqlWhereList();
-        private SqlOrderList _orders = new SqlOrderList();
+        protected readonly SqlTableList _tables = new SqlTableList();
+        protected readonly SqlWhereList _clauses = new SqlWhereList();
+        protected readonly SqlOrderList _orders = new SqlOrderList();
+        protected readonly SqlJoinList _joins = new SqlJoinList();
 
-        private int? _top = null;
-        private string _targetTable;
+        protected int? _top = null;
+        protected string _targetTable;
+
+        public DeleteStatement InnerStatement => this;
+
+        public SqlJoinList Joins => _joins;
 
         public DeleteStatement Target(string targetTable)
         {
@@ -21,6 +25,12 @@ namespace SeaQuill
         public DeleteStatement From(string tableName)
         {
             _tables.Add(new SqlTable(tableName));
+            return this;
+        }
+
+        public DeleteStatement From(string tableName, string alias)
+        {
+            _tables.Add(new SqlTable(tableName, alias));
             return this;
         }
 
@@ -55,18 +65,13 @@ namespace SeaQuill
             if (_top.HasValue)
                 sb.AppendFormat("top {0} ", _top.Value);
 
-            sb.AppendFormat("{0}", _targetTable);
-
-            if (_tables.Any())
-            {
-                sb.Append(" from ");
-                sb.Append(_tables.ToString());
-            }
-
             return sb.
+                AppendFormat("{0}", _targetTable).
+                Append(_tables.ToString()).
+                Append(_joins.ToString()).
                 Append(_clauses.ToString()).
                 Append(_orders.ToString()).
-                ToString();            
+                ToString();
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿namespace SeaQuill.DataAnnotations
+﻿using SeaQuill.ObjectMapping;
+
+namespace SeaQuill.ObjectMapping
 {
-    public static partial class Sql
+    public static class Sql
     {        
         public static ObjectSelectStatement<T> SelectFor<T>() =>
             new ObjectSelectStatement<T>();

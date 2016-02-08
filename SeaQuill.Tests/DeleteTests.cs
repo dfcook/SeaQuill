@@ -31,5 +31,20 @@ namespace SeaQuill.Tests
 
             Assert.AreEqual(sql, select);
         }
+
+        [TestMethod]
+        public void TestDeleteWithJoin()
+        {
+            const string sql = "delete users from users u inner join employee e on u.UserId = e.UserId";
+
+            var select = Sql.
+                Delete().
+                Target("users").
+                From("users", "u").
+                Join("employee", "e", "u.UserId = e.UserId").
+                ToString();
+
+            Assert.AreEqual(sql, select);
+        }
     }
 }

@@ -52,6 +52,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="InsertTests.cs" />
+    <Compile Include="UpdateTests.cs" />
     <Compile Include="ObjectSelectTests.cs" />
     <Compile Include="JoinSelectTests.cs" />
     <Compile Include="SelectTests.cs" />
@@ -62,6 +64,10 @@
     <ProjectReference Include="..\SeaQuill.DataAnnotations\SeaQuill.DataAnnotations.csproj">
       <Project>{f6e80567-102e-4572-ad7d-0707ed165e3d}</Project>
       <Name>SeaQuill.DataAnnotations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SeaQuill.ObjectMapping\SeaQuill.ObjectMapping.csproj">
+      <Project>{5f4be7fb-7c1b-431e-9ee6-27aba8661aec}</Project>
+      <Name>SeaQuill.ObjectMapping</Name>
     </ProjectReference>
     <ProjectReference Include="..\SeaQuill\SeaQuill.csproj">
       <Project>{24d30b3e-bf74-412f-9680-329cb98a0b52}</Project>

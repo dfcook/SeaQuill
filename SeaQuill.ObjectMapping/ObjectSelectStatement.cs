@@ -1,7 +1,9 @@
 ﻿
+using System;
+using System.Linq.Expressions;
 using System.Text;
 
-namespace SeaQuill.DataAnnotations
+namespace SeaQuill.ObjectMapping
 {
     public class ObjectSelectStatement<T> : SelectStatement
     {
@@ -10,6 +12,12 @@ namespace SeaQuill.DataAnnotations
         public ObjectSelectStatement()
         {
             _mapping = new ObjectTableMapping<T>();
+        }
+
+        public ObjectSelectStatement<T> Where(Expression<Predicate<T>> predicate)
+        {
+            _clauses.Add(new SqlWhereExpression<T>(predicate, _mapping));
+            return this;
         }
         
         public override string ToString()
