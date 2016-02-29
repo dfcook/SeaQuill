@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PagedSelectStatement.cs" />
     <Compile Include="SqlSet.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="InsertStatement.cs" />

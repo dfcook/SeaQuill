@@ -1,4 +1,5 @@
-﻿using SeaQuill.DataAccess.Extensions;
+﻿using DanielCook.Core.Extensions;
+using SeaQuill.DataAccess.Extensions;
 using SeaQuill.DataAccess.Mapping;
 using System;
 using System.Collections.Generic;
@@ -93,45 +94,32 @@ namespace SeaQuill.DataAccess.Queries
             }            
         }
 
-        public IEnumerable<T> ExecuteList<T>() where T : new()
-        {
-            using (var reader = ExecuteReader())
-            {
-                return reader.MapList<T>();
-            }
-        }                                     
+        public IEnumerable<T> ExecuteList<T>() where T : new() =>
+            Disposable.Using(() => ExecuteReader(),
+                rdr => rdr.MapList<T>());
 
-        public IEnumerable<T> ExecuteList<T>(IObjectMapper<T> mapper)
-        {
-            using (var reader = ExecuteReader())
-            {
-                return reader.MapList(mapper);
-            }
-        }
+        public IEnumerable<T> ExecuteList<T>(IObjectMapper<T> mapper) =>
+            Disposable.Using(() => ExecuteReader(),
+                rdr => rdr.MapList(mapper));
 
-        public T ExecuteObject<T>() where T : new()
-        {
-            using (var reader = ExecuteReader())
-            {
-                return reader.Read() ? reader.Map<T>() : default(T);                      
-            }
-        }
+        public PagedResult<T> ExecutePagedResult<T>() where T : new() =>
+            ExecutePagedResult(ReflectionMapperCache.GetMapper<T>());
 
-        public T ExecuteObject<T>(IObjectMapper<T> mapper)
-        {
-            using (var reader = ExecuteReader())
-            {
-                return reader.Read() ? reader.Map(mapper) : default(T);
-            }
-        }
+        public PagedResult<T> ExecutePagedResult<T>(IObjectMapper<T> mapper) =>
+            Disposable.Using(() => ExecuteReader(),
+                rdr => new PagedResultMapper<T>(mapper).Map(rdr));
 
-        public T ExecuteScalar<T>()
-        {
-            using (var reader = ExecuteReader())
-            {
-                return reader.Read() ? reader.Read<T>(0) : default(T);
-            }
-        }        
+        public T ExecuteObject<T>() where T : new() =>
+            Disposable.Using(() => ExecuteReader(),
+                rdr => rdr.Read() ? rdr.Map<T>() : default(T));        
+
+        public T ExecuteObject<T>(IObjectMapper<T> mapper) =>
+            Disposable.Using(() => ExecuteReader(),
+                rdr => rdr.Read() ? rdr.Map(mapper) : default(T));
+
+        public T ExecuteScalar<T>() =>
+            Disposable.Using(() => ExecuteReader(),
+                rdr => rdr.Read() ? rdr.Read<T>(0) : default(T));
 
         public T GetParameterValue<T>(string parameterName)
         {

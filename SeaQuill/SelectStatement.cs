@@ -57,15 +57,18 @@ namespace SeaQuill
         #endregion
 
         #region "Fields"
-        public SelectStatement Field(string fieldName)
+        public SelectStatement Field(string fieldName) =>
+            Field(fieldName, string.Empty);        
+
+        public SelectStatement Field(string fieldName, string alias)
         {
-            _fields.Add(new SqlField(fieldName));
+            _fields.Add(new SqlField(fieldName, alias));
             return this;
         }
 
         public SelectStatement Fields(IEnumerable<string> fieldNames)
         {
-            _fields.AddRange(fieldNames.Select(x => new SqlField(x)));
+            _fields.AddRange(fieldNames.Select(x => new SqlField(x, string.Empty)));
             return this;
         }
         #endregion                

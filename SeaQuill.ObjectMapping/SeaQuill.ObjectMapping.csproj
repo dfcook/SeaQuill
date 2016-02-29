@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IPropertyMapping.cs" />
     <Compile Include="ObjectDeleteStatement.cs" />
+    <Compile Include="PagedObjectSelectStatement.cs" />
     <Compile Include="ObjectSelectStatement.cs" />
     <Compile Include="ObjectTableMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

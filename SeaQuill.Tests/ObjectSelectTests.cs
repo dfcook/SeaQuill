@@ -44,12 +44,11 @@ namespace SeaQuill.Tests
         [TestMethod]
         public void TestObjectSelectWithPredicateClause()
         {
-            const string sql = "select Id, user_name from Users where Id = 10 and user_name = 'foo'";
+            const string sql = "select Id, user_name from Users where Id = 10";
 
             var select = ObjectMapping.Sql.
                 SelectFor<User>().
-                Where(x => x.Id == 10).
-                Where(x => x.UserName == "foo").
+                Where(x => x.Id == 10).                
                 ToString();
 
             Assert.AreEqual(sql, select);

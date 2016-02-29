@@ -21,6 +21,33 @@ namespace SeaQuill.Tests
         }
 
         [TestMethod]
+        public void TestComplexSelect()
+        {
+            const string sql = "select cp.caseid as CaseId, CaseREF as CaseRefId, lst.[Description] as LoanSubType, bt.Description as LoanType, [dbo].[fn_GetLookupSystemItemDescription] (cd.RegulationTypeID) as RegulationType, cp.StatementLastProducedDate as StatementLastIssuedDate, srri.MonthsBetweenStatements, srri.OffsetDays from CaseProcessing cp left outer join CaseDetails cd on cd.Caseid = cp.CaseID left outer join LENDER_CaseDetails lcd on lcd.Caseid = cp.CaseID left outer join LoanSubTypes LST on lcd.LoanSubType = lst.ID left outer join BridgeTerm BT on lcd.LoanType = bt.ID left outer join StatementRequiredRuleInput srri on srri.LoanSubTypeId = lcd.LoanSubType and srri.LoanTypeId = lcd.LoanType and srri.RegulationTypeId = cd.RegulationTypeID";
+
+            var select = Sql.
+                Select().
+                Field("cp.caseid", "CaseId").
+                Field("CaseREF", "CaseRefId").
+                Field("lst.[Description]", "LoanSubType").
+                Field("bt.Description", "LoanType").
+                Field("[dbo].[fn_GetLookupSystemItemDescription] (cd.RegulationTypeID)", "RegulationType").
+                Field("cp.StatementLastProducedDate", "StatementLastIssuedDate").
+                Field("srri.MonthsBetweenStatements").
+                Field("srri.OffsetDays").                   
+                From("CaseProcessing", "cp").
+                LeftJoin("CaseDetails", "cd", "cd.Caseid = cp.CaseID").
+                LeftJoin("LENDER_CaseDetails", "lcd", "lcd.Caseid = cp.CaseID").
+                LeftJoin("LoanSubTypes", "LST", "lcd.LoanSubType = lst.ID").
+                LeftJoin("BridgeTerm", "BT", "lcd.LoanType = bt.ID").
+                LeftJoin("StatementRequiredRuleInput", "srri", "srri.LoanSubTypeId = lcd.LoanSubType and srri.LoanTypeId = lcd.LoanType and srri.RegulationTypeId = cd.RegulationTypeID").
+                ToString();
+             
+            Assert.AreEqual(sql, select);
+        }
+
+
+        [TestMethod]
         public void TestWithUnionAllSelect()
         {
             const string sql = "select foo from Users union all select foo from Admins";

@@ -31,9 +31,9 @@ namespace SeaQuill.DataAccess.Mapping
             return list;
         }
 
-        public virtual T Map(IDataRecord record) =>
-            Map(record, OrdinalMappings ?? GetOrdinalMappings(record));
+        public virtual T Map(IDataReader reader) =>
+            Map(reader, OrdinalMappings ?? GetOrdinalMappings(reader));
 
-        public abstract T Map(IDataRecord record, IDictionary<string, int> ordinalMappings);        
+        public abstract T Map(IDataReader reader, IDictionary<string, int> ordinalMappings);        
     }
 }

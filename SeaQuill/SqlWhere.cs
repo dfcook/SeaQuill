@@ -6,6 +6,26 @@ namespace SeaQuill
 {
     public class SqlWhereList : List<SqlWhere>
     {
+        public string ToString(SqlWhere filter)
+        {
+            var sb = new StringBuilder();
+
+            if (this.Any() || filter != null)
+            {
+                sb.Append(" where ");
+
+                foreach (var clause in this)
+                    sb.Append(clause).Append(" and ");
+
+                if (filter != null)
+                    sb.Append(filter).Append(" and ");
+
+                sb.Remove(sb.Length - 5, 5);
+            }
+
+            return sb.ToString();
+        }
+
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -15,7 +35,7 @@ namespace SeaQuill
                 sb.Append(" where ");
 
                 foreach (var clause in this)
-                    sb.Append(clause.WhereClause).Append(" and ");
+                    sb.Append(clause).Append(" and ");
 
                 sb.Remove(sb.Length - 5, 5);
             }
@@ -32,5 +52,7 @@ namespace SeaQuill
         {
             WhereClause = clause;
         }
+
+        public override string ToString() => WhereClause;
     }
 }

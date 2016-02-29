@@ -48,7 +48,8 @@ namespace SeaQuill.ObjectMapping
             {
                 var fieldInfo = (FieldInfo)node.Member;
 
-                var instance = (node.Expression == null) ? null : TryEvaluate(node.Expression).Value;
+                var instance = (node.Expression == null) ? null : 
+                    TryEvaluate(node.Expression).Value;
 
                 return fieldInfo.GetValue(instance);
             }
@@ -57,7 +58,8 @@ namespace SeaQuill.ObjectMapping
             {
                 var propertyInfo = (PropertyInfo)node.Member;
 
-                var instance = (node.Expression == null) ? null : TryEvaluate(node.Expression).Value;
+                var instance = (node.Expression == null) ? null : 
+                    TryEvaluate(node.Expression).Value;
 
                 return propertyInfo.GetValue(instance, null);
             }
@@ -65,10 +67,16 @@ namespace SeaQuill.ObjectMapping
             private static ConstantExpression TryEvaluate(Expression expression)
             {
 
+                if (expression.NodeType == ExpressionType.MemberAccess)
+                {
+                    return GetMemberConstant((MemberExpression)expression);
+                }
+
                 if (expression.NodeType == ExpressionType.Constant)
                 {
                     return (ConstantExpression)expression;
                 }
+
                 throw new NotSupportedException();
 
             }

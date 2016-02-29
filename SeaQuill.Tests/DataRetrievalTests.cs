@@ -35,15 +35,25 @@ namespace SeaQuillTests
         }
 
         [TestMethod]
+        public void TestPagedSelectExecute()
+        {
+            var users = Sql.
+                PagedSelectFor<UserDetail>(1, 10).                
+                ExecuteList();
+
+            Assert.IsNotNull(users);
+            Assert.IsTrue(users.Count == 10);            
+        }
+
+        [TestMethod]
         public void TestSelectSingle()
         {
-            var userId = 485;
-            var user = Sql.
+            var usr = Sql.
                 SelectFor<UserDetail>().
-                Where(x => x.UserId == userId).
-                ExecuteSingle();
+                Where(x => x.UserId == 485).
+                ExecuteSingle();                
 
-            Assert.IsNotNull(user);            
+            Assert.IsNotNull(usr);
         }
     }
 }

@@ -53,9 +53,7 @@ namespace SeaQuill
             Alias = alias;
         }
 
-        public override string ToString()
-        {
-            return TableName + (string.IsNullOrEmpty(Alias) ? string.Empty : $" {Alias}");
-        }
+        public override string ToString() =>
+            TableName + (string.IsNullOrEmpty(Alias) ? string.Empty : $" {Alias}");        
     }
 }
