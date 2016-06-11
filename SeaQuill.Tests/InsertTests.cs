@@ -13,7 +13,7 @@ namespace SeaQuill.Tests
             var select = Sql.
                 Insert().
                 Target("foo").
-                FromQuery(Sql.Select().From("bar")).                
+                FromQuery(Sql.Select().From("bar")).
                 ToString();
 
             Assert.AreEqual(sql, select);

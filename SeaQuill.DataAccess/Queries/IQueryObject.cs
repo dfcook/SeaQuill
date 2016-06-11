@@ -16,7 +16,7 @@ namespace SeaQuill.DataAccess.Queries
 
         IDataReader ExecuteReader();
 
-        IEnumerable<T> ExecuteList<T>(IObjectMapper<T> mapper);        
+        IEnumerable<T> ExecuteList<T>(IObjectMapper<T> mapper);
 
         IEnumerable<T> ExecuteList<T>() where T : new();
 
@@ -30,7 +30,7 @@ namespace SeaQuill.DataAccess.Queries
 
         Task<T> ExecuteObjectAsync<T>(IObjectMapper<T> mapper);
 
-        Task<T> ExecuteObjectAsync<T>() where T : new();        
+        Task<T> ExecuteObjectAsync<T>() where T : new();
 
         int Execute();
 

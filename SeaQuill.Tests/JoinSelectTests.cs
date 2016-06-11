@@ -12,7 +12,7 @@ namespace SeaQuill.Tests
 
             var select = Sql.
                 Select().
-                Field("foo").                
+                Field("foo").
                 From("Users").
                 Join("Address").
                 ToString();

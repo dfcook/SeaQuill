@@ -6,16 +6,16 @@ namespace SeaQuill.DataAccess.Exceptions
     [Serializable]
     public sealed class ColumnMissingException : Exception
     {
-        public ColumnMissingException(SerializationInfo info, StreamingContext context) : 
+        public ColumnMissingException(SerializationInfo info, StreamingContext context) :
             base(info, context)
-        {            
+        {
             ColumnName = info.GetString("columnName");
         }
 
         public string ColumnName { get; }
 
-        public ColumnMissingException(string columnName) : 
-            base(string.Format("Unable to find column {0} in the resultset", columnName))
+        public ColumnMissingException(string columnName) :
+            base($"Unable to find column {columnName} in the resultset")
         {
             ColumnName = columnName;
         }

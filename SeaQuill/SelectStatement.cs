@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -16,9 +14,9 @@ namespace SeaQuill
         protected readonly SqlGroupList _groups = new SqlGroupList();
 
         protected SelectStatement _union;
-        protected bool _unionAll = false;
-        protected bool _distinct = false;
-        protected int? _top = null;
+        protected bool _unionAll;
+        protected bool _distinct;
+        protected int? _top;
 
         public SelectStatement InnerStatement => this;
 
@@ -68,8 +66,8 @@ namespace SeaQuill
             _fields.AddRange(fieldNames.Select(x => new SqlField(x)));
             return this;
         }
-        #endregion                
 
+        #endregion
         public SelectStatement Where(string clause)
         {
             _clauses.Add(new SqlWhere(clause));

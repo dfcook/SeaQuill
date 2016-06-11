@@ -42,8 +42,8 @@ namespace SeaQuill.Tests
 
             var select = Sql.
                 Select().
-                Field("foo").                
-                From(Sql.Select().Field("foo").From("Users"), "u").                
+                Field("foo").
+                From(Sql.Select().Field("foo").From("Users"), "u").
                 ToString();
 
             Assert.AreEqual(sql, select);
@@ -167,7 +167,7 @@ namespace SeaQuill.Tests
             const string sql = "select * from Users";
 
             var select = Sql.
-                Select().                
+                Select().
                 From("Users").
                 ToString();
 

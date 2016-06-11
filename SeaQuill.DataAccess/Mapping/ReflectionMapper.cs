@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using SeaQuill.ObjectMapping;
-using System.Linq;
-
-namespace SeaQuill.DataAccess.Mapping
+﻿namespace SeaQuill.DataAccess.Mapping
 {
+    using SeaQuill.ObjectMapping;
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+
     internal sealed class ReflectionMapper<T> : ObjectMapperBase<T> where T : new()
     {
-        public ObjectTableMapping<T> _mapping;
+        public readonly ObjectTableMapping<T> _mapping;
 
         public ReflectionMapper()
         {
             _mapping = new ObjectTableMapping<T>();
         }
-                
-        public override T Map(IDataRecord record, IDictionary<string, int> ordinals)
+
+        public override T Map(IDataRecord record, IDictionary<string, int> ordinalMappings)
         {
             var item = new T();
 
-            foreach (var ordinal in ordinals)
+            foreach (var ordinal in ordinalMappings)
             {
                 if (!record.IsDBNull(ordinal.Value))
                 {
@@ -36,12 +36,12 @@ namespace SeaQuill.DataAccess.Mapping
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception(string.Format("Error mapping {0} : {1}", columnName, ex.Message));
+                            throw new Exception($"Error mapping {columnName} : {ex.Message}");
                         }
-                    }                        
+                    }
                 }
             }
-            
+
             return item;
         }
     }

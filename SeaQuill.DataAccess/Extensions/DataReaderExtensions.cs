@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Data;
 
 namespace SeaQuill.DataAccess.Extensions
-{ 
+{
     public static class DataReaderExtensions
     {
-        public static ICollection<T> MapList<T>(this IDataReader reader, 
-            IObjectMapper<T> mapper) => 
-            mapper.MapList(reader);        
+        public static ICollection<T> MapList<T>(this IDataReader reader,
+            IObjectMapper<T> mapper) =>
+            mapper.MapList(reader);
 
         public static ICollection<T> MapList<T>(this IDataReader reader) where T : new()  =>
-            reader.MapList(ReflectionMapperCache.GetMapper<T>());        
+            reader.MapList(ReflectionMapperCache.GetMapper<T>());
 
         public static T Map<T>(this IDataReader reader, IObjectMapper<T> mapper) =>
-            mapper.Map(reader);    
+            mapper.Map(reader);
 
         public static T Map<T>(this IDataReader reader) where T : new() =>
-            reader.Map(ReflectionMapperCache.GetMapper<T>());        
+            reader.Map(ReflectionMapperCache.GetMapper<T>());
 
         public static T MapNext<T>(this IDataReader reader, IObjectMapper<T> mapper)
         {
@@ -41,6 +41,6 @@ namespace SeaQuill.DataAccess.Extensions
         {
             reader.NextResult();
             return reader.MapList<T>();
-        }        
+        }
     }
 }

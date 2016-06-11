@@ -9,7 +9,7 @@ namespace SeaQuill
         protected readonly SqlOrderList _orders = new SqlOrderList();
         protected readonly SqlJoinList _joins = new SqlJoinList();
 
-        protected int? _top = null;
+        protected int? _top;
         protected string _targetTable;
 
         public DeleteStatement InnerStatement => this;

@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace SeaQuill.DataAnnotations
+﻿namespace SeaQuill.DataAnnotations
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Class)]
-    public class TableAttribute : Attribute
+    public sealed class TableAttribute : Attribute
     {
         public string TableName { get; }
 

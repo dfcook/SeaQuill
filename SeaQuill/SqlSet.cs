@@ -28,17 +28,17 @@ namespace SeaQuill
 
         public string GetValueList() =>
             string.Join(",", this.Select(x => x.FormattedValue));
-    }    
+    }
 
     public class SqlSet
     {
         public string FieldName { get; }
         public object Value { get; }
         public bool DoNotQuote { get; }
-        
+
         public SqlSet(string fieldName, object value) :
             this(fieldName, value, false)
-        {            
+        {
         }
 
         public string FormattedValue => DoNotQuote ? Value.ToString() : $"'{Value}'";
@@ -49,11 +49,11 @@ namespace SeaQuill
             Value = value;
             DoNotQuote = doNotQuote;
 
-            if (!DoNotQuote)            
-                DoNotQuote = value.GetType().IsNumericType();            
+            if (!DoNotQuote)
+                DoNotQuote = value.GetType().IsNumericType();
         }
 
-        public override string ToString() => 
-            $"{FieldName} = {FormattedValue}";                   
+        public override string ToString() =>
+            $"{FieldName} = {FormattedValue}";
     }
 }

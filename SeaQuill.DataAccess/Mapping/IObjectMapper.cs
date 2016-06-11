@@ -8,7 +8,7 @@ namespace SeaQuill.DataAccess.Mapping
     }
 
     public interface IObjectMapper<T> : IObjectMapper
-    {        
+    {
         T Map(IDataRecord record);
         ICollection<T> MapList(IDataReader reader);
     }

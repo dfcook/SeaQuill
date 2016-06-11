@@ -6,9 +6,9 @@ namespace SeaQuill
     {
         protected readonly SqlTableList _tables = new SqlTableList();
         protected readonly SqlSetList _sets = new SqlSetList();
-        protected readonly SqlWhereList _clauses = new SqlWhereList();        
+        protected readonly SqlWhereList _clauses = new SqlWhereList();
         protected readonly SqlJoinList _joins = new SqlJoinList();
-        
+
         protected string _targetTable;
 
         public UpdateStatement InnerStatement => this;
@@ -43,7 +43,7 @@ namespace SeaQuill
         {
             _tables.Add(new SqlTable(tableName, alias));
             return this;
-        }               
+        }
 
         public UpdateStatement Where(string clause)
         {
@@ -60,7 +60,7 @@ namespace SeaQuill
                 Append(_sets.ToString()).
                 Append(_tables.ToString()).
                 Append(_joins.ToString()).
-                Append(_clauses.ToString()).                
+                Append(_clauses.ToString()).
                 ToString();
         }
     }

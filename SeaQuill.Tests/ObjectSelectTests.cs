@@ -22,7 +22,7 @@ namespace SeaQuill.Tests
             const string sql = "select Id, user_name from Users";
 
             var select = ObjectMapping.Sql.
-                SelectFor<User>().                                                               
+                SelectFor<User>().
                 ToString();
 
             Assert.AreEqual(sql, select);
@@ -35,7 +35,7 @@ namespace SeaQuill.Tests
 
             var select = ObjectMapping.Sql.
                 SelectFor<User>().
-                Where("Id != null").                
+                Where("Id != null").
                 ToString();
 
             Assert.AreEqual(sql, select);
@@ -44,7 +44,7 @@ namespace SeaQuill.Tests
         [TestMethod]
         public void TestObjectSelectWithPredicateClause()
         {
-            const string sql = "select Id, user_name from Users where Id = 10 and user_name = 'foo'";
+            const string sql = "select Id, user_name from Users where Id = 10 and user_name = \"foo\"";
 
             var select = ObjectMapping.Sql.
                 SelectFor<User>().

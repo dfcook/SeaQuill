@@ -26,16 +26,16 @@ namespace SeaQuill
 
     public class SqlSubQueryTable : SqlTable
     {
-        public SelectStatement SubQuery { get; }        
+        public SelectStatement SubQuery { get; }
 
-        public SqlSubQueryTable(SelectStatement subQuery, string alias) : 
+        public SqlSubQueryTable(SelectStatement subQuery, string alias) :
             base(string.Empty, alias)
         {
             SubQuery = subQuery;
         }
 
         public override string ToString() =>
-            $"({SubQuery}) {Alias}";        
+            $"({SubQuery}) {Alias}";
     }
 
     public class SqlTable

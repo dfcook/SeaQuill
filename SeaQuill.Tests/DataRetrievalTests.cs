@@ -37,13 +37,13 @@ namespace SeaQuillTests
         [TestMethod]
         public void TestSelectSingle()
         {
-            var userId = 485;
+            const int userId = 485;
             var user = Sql.
                 SelectFor<UserDetail>().
                 Where(x => x.UserId == userId).
                 ExecuteSingle();
 
-            Assert.IsNotNull(user);            
+            Assert.IsNotNull(user);
         }
     }
 }

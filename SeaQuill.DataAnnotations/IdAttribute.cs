@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace SeaQuill.DataAnnotations
+﻿namespace SeaQuill.DataAnnotations
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Property)]
-    public class IdAttribute : Attribute
+    public sealed class IdAttribute : Attribute
     {
 
     }

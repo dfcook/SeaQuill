@@ -16,7 +16,7 @@ namespace SeaQuill.DataAccess.Queries
     }
 
     public interface IQueryObjectFactory
-    {        
-        IQueryObject GetQuery(string commandText);         
+    {
+        IQueryObject GetQuery(string commandText);
     }
 }

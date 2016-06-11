@@ -1,8 +1,8 @@
-﻿using System;
-using System.Reflection;
-
-namespace SeaQuill.ObjectMapping
+﻿namespace SeaQuill.ObjectMapping
 {
+    using System;
+    using System.Reflection;
+
     internal sealed class PropertyMapping<T> : IPropertyMapping
     {
         public string ColumnName { get; }
@@ -31,8 +31,8 @@ namespace SeaQuill.ObjectMapping
             if (setter == null)
                 throw new ArgumentException($"Property {property.Name} does not have a setter method");
 
-            var method = typeof(PropertyMapping<T>).GetMethod("CreateGenericSetter",
-                BindingFlags.Instance | BindingFlags.NonPublic);
+            var method = typeof(PropertyMapping<T>).GetMethod(nameof(CreateGenericSetter),
+                BindingFlags.Static | BindingFlags.NonPublic);
             var helper = method.MakeGenericMethod(property.PropertyType);
             return (Action<object, object>)helper.Invoke(this, new object[] { setter });
         }
@@ -43,19 +43,19 @@ namespace SeaQuill.ObjectMapping
             if (getter == null)
                 throw new ArgumentException($"Property {property.Name} does not have a getter method");
 
-            var method = typeof(PropertyMapping<T>).GetMethod("CreateGenericGetter",
-                BindingFlags.Instance | BindingFlags.NonPublic);
+            var method = typeof(PropertyMapping<T>).GetMethod(nameof(CreateGenericGetter),
+                BindingFlags.Static | BindingFlags.NonPublic);
             var helper = method.MakeGenericMethod(property.PropertyType);
             return (Func<object, object>)helper.Invoke(this, new object[] { getter });
         }
 
-        private Action<object, object> CreateGenericSetter<V>(MethodInfo setter)
+        private static Action<object, object> CreateGenericSetter<V>(MethodInfo setter)
         {
             var typedSetter = (Action<T, V>)Delegate.CreateDelegate(typeof(Action<T, V>), setter);
             return ((instance, value) => typedSetter((T)instance, (V)value));
         }
 
-        private Func<object, object> CreateGenericGetter<V>(MethodInfo getter)
+        private static Func<object, object> CreateGenericGetter<V>(MethodInfo getter)
         {
             var typedGetter = (Func<T, V>)Delegate.CreateDelegate(typeof(Func<T, V>), getter);
             return ((instance) => typedGetter((T)instance));

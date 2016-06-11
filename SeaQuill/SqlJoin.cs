@@ -11,9 +11,9 @@ namespace SeaQuill
             var sb = new StringBuilder();
 
             if (this.Any())
-            {                
+            {
                 foreach (var join in this)
-                    sb.Append(join);                
+                    sb.Append(join);
             }
 
             return sb.ToString();
@@ -30,7 +30,7 @@ namespace SeaQuill
 
     public class SqlJoin
     {
-        private SqlTable _table;
+        private readonly SqlTable _table;
 
 
         public SqlJoinType JoinType { get; }
@@ -38,7 +38,7 @@ namespace SeaQuill
         public string Alias => _table.Alias;
         public string Criteria { get; }
 
-        public SqlJoin(SqlJoinType joinType, string tableName) : 
+        public SqlJoin(SqlJoinType joinType, string tableName) :
             this(joinType, tableName, string.Empty)
         {
         }

@@ -39,7 +39,7 @@ namespace SeaQuill.DataAccess.Extensions
             {
                 dict[key] = source.GetValue(ordinalMappings[key]);
             }
-            
+
             return dict;
         }
     }

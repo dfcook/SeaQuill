@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace SeaQuill.DataAccess.Queries
 {
@@ -8,7 +7,7 @@ namespace SeaQuill.DataAccess.Queries
     {
         private string ConnectionString { get; set; }
         private QueryType QueryType { get; set; }
-        private DatabaseType DatabaseType { get; set; }                
+        private DatabaseType DatabaseType { get; set; }
 
         public QueryObjectFactory(string connectionString, QueryType queryType, DatabaseType databaseType)
         {
@@ -30,17 +29,5 @@ namespace SeaQuill.DataAccess.Queries
                     throw new ArgumentException($"Unknown DatabaseType: {DatabaseType}");
             }
         }
-
-        private IDbConnection GetConnection()
-        {
-            switch (DatabaseType)
-            {
-                case DatabaseType.SqlServer:
-                    return new SqlConnection(ConnectionString);
-
-                default:
-                    throw new ArgumentException($"Unknown DatabaseType: {DatabaseType}");
-            }
-        }               
     }
 }

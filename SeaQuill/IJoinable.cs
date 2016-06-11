@@ -42,7 +42,7 @@
             return joinable.InnerStatement;
         }
 
-        public static T LeftJoin<T>(this IJoinable<T> joinable, string tableName, 
+        public static T LeftJoin<T>(this IJoinable<T> joinable, string tableName,
             string alias, string criteria)
         {
             joinable.Joins.Add(new SqlJoin(SqlJoinType.Left, tableName, alias, criteria));
@@ -63,7 +63,7 @@
             return joinable.InnerStatement;
         }
 
-        public static T RightJoin<T>(this IJoinable<T> joinable, string tableName, 
+        public static T RightJoin<T>(this IJoinable<T> joinable, string tableName,
             string alias, string criteria)
         {
             joinable.Joins.Add(new SqlJoin(SqlJoinType.Right, tableName, alias, criteria));

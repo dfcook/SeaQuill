@@ -3,9 +3,9 @@
 namespace SeaQuill
 {
     public class InsertStatement
-    {        
-        protected readonly SqlSetList _sets = new SqlSetList();             
-        
+    {
+        protected readonly SqlSetList _sets = new SqlSetList();
+
         protected string _targetTable;
         protected SelectStatement _fromQuery;
 

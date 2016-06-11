@@ -27,7 +27,7 @@ namespace SeaQuill.ObjectMapping
                 new PropertyMapping<U>(property);
         }
 
-        public IList<IPropertyMapping> PropertyMappings { get; } = GetMappings<T>();        
+        public IList<IPropertyMapping> PropertyMappings { get; } = GetMappings<T>();
 
         public string IdField { get; private set; }
         public string TableName { get; private set; }
@@ -86,14 +86,14 @@ namespace SeaQuill.ObjectMapping
         private void PopulateMappings()
         {
             var type = typeof(T);
-            
+
             TableName = GetTableName(type);
 
             var properties = type.GetProperties();
 
             foreach (var property in properties)
             {
-                var columnName = GetColumnMapping(property);                
+                var columnName = GetColumnMapping(property);
 
                 if (string.IsNullOrEmpty(IdField) &&
                     IsIdField(property))

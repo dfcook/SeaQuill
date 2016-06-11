@@ -7,7 +7,7 @@ namespace SeaQuill.DataAccess.Mapping
     {
         private IDictionary<string, int> OrdinalMappings { get; set; }
 
-        private IDictionary<string, int> GetOrdinalMappings(IDataRecord reader)
+        private static IDictionary<string, int> GetOrdinalMappings(IDataRecord reader)
         {
             var mappings = new Dictionary<string, int>();
 
@@ -15,7 +15,7 @@ namespace SeaQuill.DataAccess.Mapping
             {
                 mappings.Add(reader.GetName(idx), idx);
             }
-            
+
             return mappings;
         }
 
@@ -34,6 +34,6 @@ namespace SeaQuill.DataAccess.Mapping
         public virtual T Map(IDataRecord record) =>
             Map(record, OrdinalMappings ?? GetOrdinalMappings(record));
 
-        public abstract T Map(IDataRecord record, IDictionary<string, int> ordinalMappings);        
+        public abstract T Map(IDataRecord record, IDictionary<string, int> ordinalMappings);
     }
 }

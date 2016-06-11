@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-
-namespace SeaQuill.ObjectMapping
+﻿namespace SeaQuill.ObjectMapping
 {
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
     public class SqlWhereExpression<T> : SqlWhere
     {
         private class WhereExpressionVisitor : ExpressionVisitor
@@ -74,7 +74,7 @@ namespace SeaQuill.ObjectMapping
             }
         }
 
-        private ObjectTableMapping<T> _mapping;
+        private readonly ObjectTableMapping<T> _mapping;
 
         private static string GenerateWhereClause(Expression<Predicate<T>> predicate,
             ObjectTableMapping<T> mapping)
@@ -92,25 +92,11 @@ namespace SeaQuill.ObjectMapping
                 Single(x => x.PropertyName.Equals(lhs.Member.Name,
                     StringComparison.OrdinalIgnoreCase)).
                 ColumnName;
-            
+
             var rhs = body.Right;
             var value = new WhereExpressionVisitor().Visit(rhs);
 
-            var quote = (rhs.Type == typeof(bool) || rhs.Type.IsNumericType()) ?
-                string.Empty : "'";            
-
-            return $"{columnName} {GetExpressionType(body.NodeType)} {quote}{value}{quote}";
-        }
-
-        private static object Evaluate(Expression expr)
-        {
-            if (expr.NodeType == ExpressionType.Constant)
-            {
-                return expr;
-            }
-            LambdaExpression lambda = Expression.Lambda(expr);
-            Delegate fn = lambda.Compile();
-            return Expression.Constant(fn.DynamicInvoke(null), expr.Type);
+            return $"{columnName} {GetExpressionType(body.NodeType)} {value}";
         }
 
         private static string GetExpressionType(ExpressionType type)

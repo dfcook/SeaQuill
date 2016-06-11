@@ -20,16 +20,16 @@ namespace SeaQuill.DataAccess.Queries
         protected string ConnectionString { get; }
         protected CommandType CommandType { get; }
         protected string CommandText { get; }
-        
+
         private int Timeout { get; set; }
 
-        public AdoNetQueryObject(string connectionString, string commandText, CommandType commandType, int timeout)
+        protected AdoNetQueryObject(string connectionString, string commandText, CommandType commandType, int timeout)
             : this(connectionString, commandText, commandType)
         {
-            Timeout = timeout;            
+            Timeout = timeout;
         }
 
-        public AdoNetQueryObject(string connectionString, string commandText, CommandType commandType)
+        protected AdoNetQueryObject(string connectionString, string commandText, CommandType commandType)
         {
             Timeout = DefaultTimeout;
             ConnectionString = connectionString;
@@ -57,7 +57,7 @@ namespace SeaQuill.DataAccess.Queries
 
             parameter.Direction = ParameterDirection.Output;
             parameter.ParameterName = parameterName;
-            parameter.DbType = GetDbType(typeof(T));            
+            parameter.DbType = GetDbType(typeof(T));
 
             Parameters.Add(parameterName, parameter);
 
@@ -67,7 +67,7 @@ namespace SeaQuill.DataAccess.Queries
         public IQueryObject AddParameter<T>(string parameterName, T value)
         {
             var parameter = CreateParameter();
-            
+
             parameter.Direction = ParameterDirection.Input;
             parameter.ParameterName = parameterName;
             parameter.DbType = GetDbType(value);
@@ -90,7 +90,7 @@ namespace SeaQuill.DataAccess.Queries
                 {
                     return cmd.ExecuteNonQuery();
                 }
-            }            
+            }
         }
 
         public IEnumerable<T> ExecuteList<T>() where T : new()
@@ -99,7 +99,7 @@ namespace SeaQuill.DataAccess.Queries
             {
                 return reader.MapList<T>();
             }
-        }                                     
+        }
 
         public IEnumerable<T> ExecuteList<T>(IObjectMapper<T> mapper)
         {
@@ -113,7 +113,7 @@ namespace SeaQuill.DataAccess.Queries
         {
             using (var reader = ExecuteReader())
             {
-                return reader.Read() ? reader.Map<T>() : default(T);                      
+                return reader.Read() ? reader.Map<T>() : default(T);
             }
         }
 
@@ -131,7 +131,7 @@ namespace SeaQuill.DataAccess.Queries
             {
                 return reader.Read() ? reader.Read<T>(0) : default(T);
             }
-        }        
+        }
 
         public T GetParameterValue<T>(string parameterName)
         {
@@ -139,7 +139,7 @@ namespace SeaQuill.DataAccess.Queries
             return value == DBNull.Value ? default(T) : (T)value;
         }
 
-        private static object GetDbValue(object o) => o ?? DBNull.Value;        
+        private static object GetDbValue(object o) => o ?? DBNull.Value;
 
         private static DbType GetDbType(object value)
         {
@@ -150,7 +150,7 @@ namespace SeaQuill.DataAccess.Queries
         }
 
         private static DbType GetDbType(Type type)
-        {            
+        {
             if (type.IsGenericType)
                 return GetDbType(type.GetGenericArguments()[0]);
 
@@ -162,7 +162,7 @@ namespace SeaQuill.DataAccess.Queries
 
             try
             {
-                return (DbType)Enum.Parse(typeof(DbType), type.Name);                
+                return (DbType)Enum.Parse(typeof(DbType), type.Name);
             }
             catch
             {
@@ -188,7 +188,7 @@ namespace SeaQuill.DataAccess.Queries
             {
                 cmd.Parameters.Add(param);
             }
-            
+
             return cmd;
         }
 
@@ -203,15 +203,15 @@ namespace SeaQuill.DataAccess.Queries
 
         public Task<IEnumerable<T>> ExecuteListAsync<T>(IObjectMapper<T> mapper) =>
             Task.Factory.StartNew(() => ExecuteList(mapper));
-        
+
 
         public Task<IEnumerable<T>> ExecuteListAsync<T>() where T : new() =>
             Task.Factory.StartNew(() => ExecuteList<T>());
 
         public Task<T> ExecuteObjectAsync<T>(IObjectMapper<T> mapper) =>
-            Task.Factory.StartNew(() => ExecuteObject(mapper));        
+            Task.Factory.StartNew(() => ExecuteObject(mapper));
 
         public Task<T> ExecuteObjectAsync<T>() where T : new() =>
-            Task.Factory.StartNew(() => ExecuteObject<T>());                              
+            Task.Factory.StartNew(() => ExecuteObject<T>());
     }
 }

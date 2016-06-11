@@ -13,7 +13,7 @@ namespace SeaQuillTests
             const string sql = "delete Users";
 
             var select = Sql.
-                DeleteFor<User>().                                                               
+                DeleteFor<User>().
                 ToString();
 
             Assert.AreEqual(sql, select);
@@ -26,10 +26,10 @@ namespace SeaQuillTests
 
             var select = Sql.
                 DeleteFor<User>().
-                Where(x => x.Id == 1).                
+                Where(x => x.Id == 1).
                 ToString();
 
             Assert.AreEqual(sql, select);
-        }        
+        }
     }
 }

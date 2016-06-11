@@ -5,14 +5,14 @@ namespace SeaQuill.DataAccess.Queries
 {
     public sealed class SqlServerQueryObject : AdoNetQueryObject
     {
-        public SqlServerQueryObject(string connectionString, string commandText, int timeout, CommandType commandType) : 
+        public SqlServerQueryObject(string connectionString, string commandText, int timeout, CommandType commandType) :
             base(connectionString, commandText, commandType, timeout)
-        {            
+        {
         }
 
         public SqlServerQueryObject(string connectionString, string commandText, CommandType commandType)
             : base(connectionString, commandText, commandType)
-        {            
+        {
         }
 
         public override IQueryObject AddTableParameter(string parameterName, DataTable table)
@@ -32,10 +32,10 @@ namespace SeaQuill.DataAccess.Queries
         }
 
         protected override IDbDataParameter CreateParameter() =>
-            new SqlParameter();        
-        
+            new SqlParameter();
+
 
         protected override IDbConnection GetConnection() =>
-            new SqlConnection(ConnectionString);        
+            new SqlConnection(ConnectionString);
     }
 }

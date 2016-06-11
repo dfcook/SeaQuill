@@ -1,14 +1,13 @@
-﻿
-using System;
-using System.Linq.Expressions;
-using System.Text;
-
-namespace SeaQuill.ObjectMapping
+﻿namespace SeaQuill.ObjectMapping
 {
+    using System;
+    using System.Linq.Expressions;
+    using System.Text;
+
     public class ObjectSelectStatement<T> : SelectStatement
     {
-        private ObjectTableMapping<T> _mapping;
-        
+        private readonly ObjectTableMapping<T> _mapping;
+
         public ObjectSelectStatement()
         {
             _mapping = new ObjectTableMapping<T>();
@@ -19,7 +18,7 @@ namespace SeaQuill.ObjectMapping
             _clauses.Add(new SqlWhereExpression<T>(predicate, _mapping));
             return this;
         }
-        
+
         public override string ToString()
         {
             var sb = new StringBuilder("select ");
@@ -30,7 +29,7 @@ namespace SeaQuill.ObjectMapping
             if (_distinct)
                 sb.Append("distinct ");
 
-            sb.      
+            sb.
                 Append(_mapping.GetColumnList()).
                 AppendFormat(" from {0}", _mapping.TableName).
                 Append(_joins.ToString()).

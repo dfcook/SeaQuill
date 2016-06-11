@@ -1,10 +1,10 @@
-﻿using System;
-
-namespace SeaQuill.DataAnnotations
+﻿namespace SeaQuill.DataAnnotations
 {
-    [AttributeUsage(AttributeTargets.Property, 
+    using System;
+
+    [AttributeUsage(AttributeTargets.Property,
         AllowMultiple = false, Inherited = true)]
-    public class ColumnAttribute : Attribute
+    public sealed class ColumnAttribute : Attribute
     {
         public string ColumnName { get; }
 
