@@ -13,7 +13,12 @@ namespace SeaQuill
             if (this.Any())
             {
                 foreach (var field in this)
-                    sb.Append(field.FieldName).Append(", ");
+                {
+                    sb.Append(field.FieldName);
+                    if (!string.IsNullOrEmpty(field.Alias))
+                        sb.AppendFormat(" as {0}", field.Alias);
+                    sb.Append(", ");
+                }
 
                 sb.Remove(sb.Length - 2, 2);
             }
@@ -29,10 +34,12 @@ namespace SeaQuill
     public class SqlField
     {
         public string FieldName { get; }
+        public string Alias { get; }
 
-        public SqlField(string fieldName)
+        public SqlField(string fieldName, string alias)
         {
             FieldName = fieldName;
+            Alias = alias;
         }
     }
 }

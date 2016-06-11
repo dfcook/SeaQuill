@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaQuill.ObjectMapping", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaQuill.DataAccess", "SeaQuill.DataAccess\SeaQuill.DataAccess.csproj", "{C6D7EC69-B498-438D-8EEC-AEE6247C2C92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "..\Core-master\Extensions\Extensions.csproj", "{5F1DB64A-6E8C-4DEA-87BE-BE9F3F639690}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C6D7EC69-B498-438D-8EEC-AEE6247C2C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6D7EC69-B498-438D-8EEC-AEE6247C2C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6D7EC69-B498-438D-8EEC-AEE6247C2C92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F1DB64A-6E8C-4DEA-87BE-BE9F3F639690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1DB64A-6E8C-4DEA-87BE-BE9F3F639690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1DB64A-6E8C-4DEA-87BE-BE9F3F639690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1DB64A-6E8C-4DEA-87BE-BE9F3F639690}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

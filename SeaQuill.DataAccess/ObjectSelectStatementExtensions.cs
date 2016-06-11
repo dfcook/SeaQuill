@@ -30,5 +30,26 @@ namespace SeaQuill.DataAccess
                 statement.ToString(), CommandType.Text);
             return query.ExecuteScalar<T>();
         }
+
+        public static PagedResult<T> ExecuteList<T>(this PagedObjectSelectStatement<T> statement) where T : new()
+        {
+            var query = new SqlServerQueryObject(ConnectionString,
+                statement.ToString(), CommandType.Text);
+            return query.ExecutePagedResult<T>();
+        }
+
+        public static T ExecuteSingle<T>(this PagedObjectSelectStatement<T> statement) where T : new()
+        {
+            var query = new SqlServerQueryObject(ConnectionString,
+                statement.ToString(), CommandType.Text);
+            return query.ExecuteObject<T>();
+        }
+
+        public static T ExecuteScalar<T>(this PagedObjectSelectStatement<T> statement)
+        {
+            var query = new SqlServerQueryObject(ConnectionString,
+                statement.ToString(), CommandType.Text);
+            return query.ExecuteScalar<T>();
+        }                
     }
 }

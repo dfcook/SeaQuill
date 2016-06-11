@@ -6,6 +6,14 @@ namespace SeaQuill
 {
     public class SqlOrderList : List<SqlOrder>
     {
+        public SqlOrderList(IEnumerable<SqlOrder> orders) : base(orders)
+        {
+        }
+
+        public SqlOrderList()
+        {
+        }
+
         public override string ToString()
         {
             var sb = new StringBuilder();
